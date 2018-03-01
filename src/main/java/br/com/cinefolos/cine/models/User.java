@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 @Entity
 @Table(name="users")
 public class User {
@@ -20,11 +22,15 @@ public class User {
 	@NotNull
 	private String email;
 	
+	@NotNull
+	private String password;
+	
 	public User() {}
 
-	public User(String email, String name) {
+	public User(String email, String name, String password) {
 		this.email = email; 
 		this.name = name;
+		this.password = new BCryptPasswordEncoder().encode(password);
 	}
 
 	public long getId() {
@@ -49,6 +55,14 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 }
